@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import TextForm from "../components/TextForm";
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
+import TextForm from "../TextForm";
 export default function content() {
   return (
     <>
