@@ -27,6 +27,11 @@ export default function Header() {
             Regester
           </link> */}
         </nav>
+        <Link to="/">
+          <button className="mr-2 px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Go Home
+          </button>
+        </Link>
         <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
           Click me
           <svg
