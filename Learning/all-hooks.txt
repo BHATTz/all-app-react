@@ -1,0 +1,70 @@
+useState: Lets you add state to your functional components. You call it with an initial state and it returns a pair: the current state value and a function to update it.
+(const [count, setCount] = useState(0);)
+
+
+useEffect: Allows you to perform side effects in your component, like fetching data or subscribing to events. It runs after the component renders.
+(useEffect(() => {
+  // Your side effect here
+}, [dependencies]); // Dependencies array)
+
+
+useMemo: Memoizes a value to avoid recalculating it on every render unless its dependencies change. Useful for optimizing performance.
+(const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);)
+
+
+useCallback: Memoizes a callback function to avoid recreating it on every render unless its dependencies change.
+(const memoizedCallback = useCallback(() => {
+  // Your callback function
+}, [dependencies]);)
+
+
+useReducer: An alternative to useState for managing complex state logic. It takes a reducer function and an initial state, returning the current state and a dispatch function.
+(const [state, dispatch] = useReducer(reducer, initialState);)
+
+
+useContext: Allows you to access the value of a context directly without wrapping the component in a Context.Consumer.
+(const contextValue = useContext(MyContext);)
+
+useRef: Provides a way to access and persist values across renders without causing re-renders. Often used to interact with DOM elements.
+(const myRef = useRef(null);)
+
+
+useImperativeHandle: Customizes the instance value that is exposed when using ref with forwardRef. Useful for controlling what gets exposed to parent components.
+(useImperativeHandle(ref, () => ({
+  customMethod() {
+    // Custom method
+  }
+}));)
+
+
+useLayoutEffect: Similar to useEffect, but it fires synchronously after all DOM mutations. Useful for reading layout and synchronously re-rendering.
+(useLayoutEffect(() => {
+  // Your effect code here
+}, [dependencies]);)
+
+
+useInsertionEffect: A hook used internally by React for performing operations before mutations are applied to the DOM, useful for injecting styles.
+(useInsertionEffect(() => {
+  // Your effect code here
+}, [dependencies]);)
+
+
+useDebugValue: Displays a label for custom hooks in React DevTools. Useful for debugging and development.
+(useDebugValue(value);)
+
+
+useDeferredValue: Helps with deferring a value to avoid blocking the main thread and improve responsiveness. It’s useful in concurrent rendering scenarios.
+(const deferredValue = useDeferredValue(value);)
+
+
+useId: Provides a unique ID that is stable across server and client renders. Useful for accessibility attributes and generating unique keys. 
+(const id = useId();)
+
+
+useSyncExternalStore: Subscribes to an external store and synchronizes your component’s state with it. Useful for managing state that’s outside React.
+(const state = useSyncExternalStore(subscribe, getSnapshot);)
+
+
+useTransition: Allows you to mark certain updates as non-urgent, helping to manage UI transitions and keep the app responsive.
+(const [isPending, startTransition] = useTransition();)
+
