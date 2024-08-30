@@ -38,7 +38,7 @@ export default function TaskListManagement() {
     <>
       {/* TaskListManagement section */}
       <section
-        className={`text-gray-600 body-font ${
+        className={`text-gray-600 body-font px-5 py-24 ${
           isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
         }`}
       >
