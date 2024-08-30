@@ -49,7 +49,6 @@ const schema = yup.object().shape({
 function ComplexForm() {
   const [submissionMessage, setSubmissionMessage] = useState("");
   const [formData, setFormData] = useState({});
-  const [watchedData, setWatchedData] = useState({});
 
   const {
     register,
@@ -87,7 +86,6 @@ function ComplexForm() {
     localStorage.setItem("formData", JSON.stringify(data));
     setFormData(data);
     setSubmissionMessage("Form submitted successfully!");
-    setWatchedData(data);
     alert("Form submitted successfully!");
   };
 
@@ -297,28 +295,65 @@ function ComplexForm() {
           >
             Phone Numbers
           </label>
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center space-x-3 mt-2">
-              <input
-                type="text"
-                {...register(`phones.${index}.number`)}
-                className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-              <button
-                type="button"
-                onClick={() => remove(index)}
-                className="text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
+          {fields.length > 0 && (
+            <table className="w-full mt-2 border-collapse border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 px-4 py-2">
+                    Phone Number
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fields.map((field, index) => (
+                  <tr key={field.id}>
+                    <td className="border border-gray-300 px-4 py-2">
+                      <input
+                        type="text"
+                        {...register(`phones.${index}.number`)}
+                        className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      />
+                      {errors.phones?.[index]?.number && (
+                        <p className="text-red-500 text-xs mt-1">
+                          {errors.phones[index].number.message}
+                        </p>
+                      )}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="text-red-600 hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
           <button
             type="button"
             onClick={() => append({ number: "" })}
             className="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           >
             Add Phone Number
+          </button>
+          <button
+            type="button"
+            onClick={() => fields.length > 0 && remove(fields.length - 1)}
+            className="mt-3 ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Remove Last Phone Number
+          </button>
+          <button
+            type="button"
+            onClick={() => remove()}
+            className="mt-3 ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            Remove All Phone Numbers
           </button>
         </div>
 
@@ -344,11 +379,33 @@ function ComplexForm() {
         <p className="text-green-500 text-lg mt-4">{submissionMessage}</p>
       )}
 
-      {/* Display Watched Fields Data as JSON */}
+      {/* Display Watched Fields Data as Table */}
       {Object.keys(watchedFields).length > 0 && (
-        <pre className="text-white mt-4 p-4 bg-gray-800  rounded-lg border border-gray-300">
-          {JSON.stringify(watchedFields, null, 2)}
-        </pre>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full bg-gray-800 text-white rounded-lg border border-gray-300">
+            <thead>
+              <tr>
+                {Object.keys(watchedFields).map((key) => (
+                  <th
+                    key={key}
+                    className="border border-gray-300 px-4 py-2 text-left"
+                  >
+                    {key}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {Object.values(watchedFields).map((value, index) => (
+                  <td key={index} className="border border-gray-300 px-4 py-2">
+                    {JSON.stringify(value)}
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
       )}
 
       <DevTool control={control} />
