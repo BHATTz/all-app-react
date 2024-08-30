@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,7 +37,7 @@ const schema = yup.object().shape({
     zip: yup
       .string()
       .required("ZIP code is required")
-      .matches(/^\d{5}$/, "ZIP code must be 5 digits"),
+      .matches(/^\d{6}$/, "ZIP code must be 6 digits"),
   }),
   dateOfBirth: yup.date().required("Date of Birth is required").nullable(),
   agreeToTerms: yup
@@ -84,10 +84,24 @@ function ComplexForm() {
   });
 
   const onSubmit = (data) => {
+    localStorage.setItem("formData", JSON.stringify(data));
     setFormData(data);
     setSubmissionMessage("Form submitted successfully!");
     setWatchedData(data);
     alert("Form submitted successfully!");
+  };
+
+  useEffect(() => {
+    const storedData = localStorage.getItem("formData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      reset(parsedData);
+    }
+  }, [reset]);
+
+  const onReset = () => {
+    localStorage.removeItem("formData");
+    reset();
   };
 
   // Watch all fields
@@ -319,7 +333,7 @@ function ComplexForm() {
 
       {/* Reset Button */}
       <button
-        onClick={() => reset()}
+        onClick={onReset}
         className="w-full mt-4 py-3 px-6 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
       >
         Reset Form
