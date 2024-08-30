@@ -5,7 +5,7 @@ import WeatherComponent from "../component/api-learn/WeatherComponent";
 import ComplexForm from "../component/complex-form/ComplexForm";
 import TaskListManagement from "../component/task-manager/TaskListManagement";
 import Learnlogic from "../component/home-learning/learnlogic";
-import Ui from "../component/ui-component/connectc";
+import UiMain from "../component/ui-component/uimain";
 import Main from "../pages/Main";
 
 const route = () => {
@@ -16,7 +16,7 @@ const route = () => {
         <Route path="/WeatherComponent" element={<WeatherComponent />} />
         <Route path="/ComplexForm" element={<ComplexForm />} />
         <Route path="/TaskListManagement" element={<TaskListManagement />} />
-        <Route path="/Ui" element={<Ui />} />
+        <Route path="/Ui" element={<UiMain />} />
         <Route path="/Learnlogic" element={<Learnlogic />} />
       </Routes>
     </Router>

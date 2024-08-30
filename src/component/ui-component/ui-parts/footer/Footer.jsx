@@ -1,76 +1,88 @@
 import React from "react";
+import { useDarkMode } from "../DarkModeContext";
 
 export default function Footer() {
+  const { isDarkMode } = useDarkMode();
+
   return (
-    <footer className="text-gray-600 body-font">
+    <footer
+      className={`body-font ${
+        isDarkMode ? "bg-gray-900 text-gray-400" : "bg-gray-100 text-gray-600"
+      }`}
+    >
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap md:text-left text-center order-first">
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium tracking-widest text-sm mb-3">
               CATEGORIES
             </h2>
             <nav className="list-none mb-10">
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">First Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Second Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Third Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
-              </li>
+              {["First", "Second", "Third", "Fourth"].map((link) => (
+                <li key={link}>
+                  <a
+                    className={`hover:text-gray-800 ${
+                      isDarkMode
+                        ? "text-gray-400 hover:text-gray-300"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {link} Link
+                  </a>
+                </li>
+              ))}
             </nav>
           </div>
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium tracking-widest text-sm mb-3">
               CATEGORIES
             </h2>
             <nav className="list-none mb-10">
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">First Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Second Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Third Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
-              </li>
+              {["First", "Second", "Third", "Fourth"].map((link) => (
+                <li key={link}>
+                  <a
+                    className={`hover:text-gray-800 ${
+                      isDarkMode
+                        ? "text-gray-400 hover:text-gray-300"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {link} Link
+                  </a>
+                </li>
+              ))}
             </nav>
           </div>
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium tracking-widest text-sm mb-3">
               CATEGORIES
             </h2>
             <nav className="list-none mb-10">
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">First Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Second Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Third Link</a>
-              </li>
-              <li>
-                <a className="text-gray-600 hover:text-gray-800">Fourth Link</a>
-              </li>
+              {["First", "Second", "Third", "Fourth"].map((link) => (
+                <li key={link}>
+                  <a
+                    className={`hover:text-gray-800 ${
+                      isDarkMode
+                        ? "text-gray-400 hover:text-gray-300"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {link} Link
+                  </a>
+                </li>
+              ))}
             </nav>
           </div>
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+            <h2 className="title-font font-medium tracking-widest text-sm mb-3">
               SUBSCRIBE
             </h2>
             <div className="flex xl:flex-nowrap md:flex-nowrap lg:flex-wrap flex-wrap justify-center items-end md:justify-start">
               <div className="relative w-40 sm:w-auto xl:mr-4 lg:mr-0 sm:mr-4 mr-2">
                 <label
                   htmlFor="footer-field"
-                  className="leading-7 text-sm text-gray-600"
+                  className={`leading-7 text-sm ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
                 >
                   Placeholder
                 </label>
@@ -78,14 +90,28 @@ export default function Footer() {
                   type="text"
                   id="footer-field"
                   name="footer-field"
-                  className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  className={`w-full ${
+                    isDarkMode
+                      ? "bg-gray-800 text-gray-300 border-gray-700 focus:bg-gray-700 focus:ring-indigo-500"
+                      : "bg-gray-100 text-gray-700 border-gray-300 focus:bg-transparent focus:ring-indigo-200"
+                  } rounded border text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out`}
                 />
               </div>
-              <button className="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <button
+                className={`lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white border-0 py-2 px-6 focus:outline-none rounded ${
+                  isDarkMode
+                    ? "bg-indigo-600 hover:bg-indigo-700"
+                    : "bg-indigo-500 hover:bg-indigo-600"
+                }`}
+              >
                 Button
               </button>
             </div>
-            <p className="text-gray-500 text-sm mt-2 md:text-left text-center">
+            <p
+              className={`text-sm mt-2 md:text-left text-center ${
+                isDarkMode ? "text-gray-500" : "text-gray-600"
+              }`}
+            >
               Bitters chicharrones fanny pack
               <br className="lg:block hidden" />
               waistcoat green juice
@@ -93,9 +119,13 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="bg-gray-100">
+      <div
+        className={`bg-gray-100 ${
+          isDarkMode ? "bg-gray-800 text-gray-400" : "bg-gray-100 text-gray-600"
+        }`}
+      >
         <div className="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
-          <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+          <a className="flex title-font font-medium items-center md:justify-start justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -110,12 +140,16 @@ export default function Footer() {
             </svg>
             <span className="ml-3 text-xl">Tailblocks</span>
           </a>
-          <p className="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">
+          <p
+            className={`text-sm sm:ml-6 sm:mt-0 mt-4 ${
+              isDarkMode ? "text-gray-500" : "text-gray-600"
+            }`}
+          >
             © 2020 Tailblocks —
             <a
               href="https://twitter.com/knyttneve"
               rel="noopener noreferrer"
-              className="text-gray-600 ml-1"
+              className="ml-1"
               target="_blank"
             >
               @knyttneve
