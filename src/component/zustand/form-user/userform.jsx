@@ -1,19 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useUserStore from "./useUserStore";
 
-export default function UserForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-  const addUserData = useUserStore((state) => state.addUserData);
+export default function userform() {
+  const { register, handleSubmit, reset, setValue } = useForm();
+  const { addUserData, updateUserData, userData, editingIndex } = useUserStore(
+    (state) => ({
+      addUserData: state.addUserData,
+      updateUserData: state.updateUserData,
+      userData: state.userData,
+      editingIndex: state.editingIndex,
+    })
+  );
+
+  useEffect(() => {
+    if (editingIndex !== null) {
+      const user = userData[editingIndex];
+      setValue("name", user.name);
+      setValue("email", user.email);
+      setValue("password", user.password);
+      setValue("summary", user.summary);
+    } else {
+      reset();
+    }
+  }, [editingIndex, userData, setValue, reset]);
 
   const onSubmit = (data) => {
-    addUserData(data);
-    console.log(data);
+    if (editingIndex !== null) {
+      updateUserData(editingIndex, data);
+    } else {
+      addUserData(data);
+    }
     reset();
   };
 
@@ -23,7 +40,9 @@ export default function UserForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Create User</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {editingIndex !== null ? "Edit User" : "Create User"}
+        </h2>
 
         <div className="mb-4">
           <label
@@ -36,13 +55,8 @@ export default function UserForm() {
             type="text"
             id="name"
             {...register("name", { required: "Name is required" })}
-            className={`mt-1 block w-full px-3 py-2 border ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            } rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm`}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
           />
-          {errors.name && (
-            <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
-          )}
         </div>
 
         <div className="mb-4">
@@ -55,20 +69,9 @@ export default function UserForm() {
           <input
             type="email"
             id="email"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                message: "Enter a valid email address",
-              },
-            })}
-            className={`mt-1 block w-full px-3 py-2 border ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            } rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm`}
+            {...register("email", { required: "Email is required" })}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
           />
-          {errors.email && (
-            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
-          )}
         </div>
 
         <div className="mb-4">
@@ -81,22 +84,9 @@ export default function UserForm() {
           <input
             type="password"
             id="password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters long",
-              },
-            })}
-            className={`mt-1 block w-full px-3 py-2 border ${
-              errors.password ? "border-red-500" : "border-gray-300"
-            } rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm`}
+            {...register("password", { required: "Password is required" })}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
           />
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.password.message}
-            </p>
-          )}
         </div>
 
         <div className="mb-4">
@@ -117,7 +107,7 @@ export default function UserForm() {
         <div className="text-center">
           <input
             type="submit"
-            value="Submit"
+            value={editingIndex !== null ? "Update" : "Submit"}
             className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
           />
         </div>

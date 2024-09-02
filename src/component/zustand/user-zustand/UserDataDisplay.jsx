@@ -1,40 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import useUserStore from "../form-user/useUserStore"; // Adjust the import path as needed
 
 export default function UserDataDisplay() {
-  const { userData, updateUserData, deleteUserData } = useUserStore(
-    (state) => ({
-      userData: state.userData,
-      updateUserData: state.updateUserData,
-      deleteUserData: state.deleteUserData,
-    })
-  );
-
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editingData, setEditingData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    summary: "",
-  });
+  const { userData, setEditingIndex } = useUserStore((state) => ({
+    userData: state.userData,
+    setEditingIndex: state.setEditingIndex,
+  }));
 
   const handleEditClick = (index) => {
     setEditingIndex(index);
-    setEditingData(userData[index]);
   };
 
   const handleDeleteClick = (index) => {
-    deleteUserData(index);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditingData({ ...editingData, [name]: value });
-  };
-
-  const handleSaveClick = () => {
-    updateUserData(editingIndex, editingData);
-    setEditingIndex(null);
+    useUserStore.getState().deleteUserData(index);
   };
 
   return (
@@ -66,73 +44,21 @@ export default function UserDataDisplay() {
             <tbody className="bg-white divide-y divide-gray-200">
               {userData.map((user, index) => (
                 <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {editingIndex === index ? (
-                      <input
-                        type="text"
-                        name="name"
-                        value={editingData.name}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      />
-                    ) : (
-                      user.name
-                    )}
+                    {user.password}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {editingIndex === index ? (
-                      <input
-                        type="email"
-                        name="email"
-                        value={editingData.email}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      />
-                    ) : (
-                      user.email
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {editingIndex === index ? (
-                      <input
-                        type="password"
-                        name="password"
-                        value={editingData.password}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      />
-                    ) : (
-                      user.password
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {editingIndex === index ? (
-                      <textarea
-                        name="summary"
-                        value={editingData.summary}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                      />
-                    ) : (
-                      user.summary
-                    )}
+                    {user.summary}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    {editingIndex === index ? (
-                      <button
-                        onClick={handleSaveClick}
-                        className="text-indigo-600 hover:text-indigo-900 mr-4"
-                      >
-                        Save
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleEditClick(index)}
-                        className="text-yellow-600 hover:text-yellow-900 mr-4"
-                      >
-                        Edit
-                      </button>
-                    )}
+                    <button
+                      onClick={() => handleEditClick(index)}
+                      className="text-yellow-600 hover:text-yellow-900 mr-4"
+                    >
+                      Edit
+                    </button>
                     <button
                       onClick={() => handleDeleteClick(index)}
                       className="text-red-600 hover:text-red-900"

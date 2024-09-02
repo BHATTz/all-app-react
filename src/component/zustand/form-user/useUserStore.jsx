@@ -2,6 +2,9 @@ import { create } from "zustand";
 
 const useUserStore = create((set) => ({
   userData: [],
+  editingIndex: null,
+
+  setEditingIndex: (index) => set({ editingIndex: index }),
 
   addUserData: (newData) => {
     set((state) => ({
@@ -13,14 +16,14 @@ const useUserStore = create((set) => ({
     set((state) => {
       const updatedData = [...state.userData];
       updatedData[index] = newData;
-      return { userData: updatedData };
+      return { userData: updatedData, editingIndex: null };
     });
   },
 
   deleteUserData: (index) => {
     set((state) => {
       const updatedData = state.userData.filter((_, i) => i !== index);
-      return { userData: updatedData };
+      return { userData: updatedData, editingIndex: null };
     });
   },
 }));
