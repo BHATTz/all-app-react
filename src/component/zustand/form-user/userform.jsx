@@ -1,26 +1,27 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import useUserStore from "./useUserStore"; // Import the Zustand store
+import useUserStore from "./useUserStore";
 
 export default function UserForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
-  const addUserData = useUserStore((state) => state.addUserData); // Get the addUserData function from the store
+  const addUserData = useUserStore((state) => state.addUserData);
 
   const onSubmit = (data) => {
-    addUserData(data); // Save form data to the store
+    addUserData(data);
     console.log(data);
-    // Handle form submission, e.g., send data to an API
+    reset();
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md"
+        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Create User</h2>
 
