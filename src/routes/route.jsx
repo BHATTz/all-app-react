@@ -8,7 +8,7 @@ import Learnlogic from "../component/home-learning/learnlogic";
 import UiMain from "../component/ui-component/uimain";
 import Main from "../pages/Main";
 import Mergf from "../component/zustand/mergf";
-import Redmerg from "../component/redux/redmerg";
+import Redmerg from "../component/redux-tutorial/redmerg";
 
 const route = () => {
   return (
