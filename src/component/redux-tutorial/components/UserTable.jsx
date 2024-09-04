@@ -1,116 +1,77 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteUser, updateUser } from "../redux/userSlice";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setEditingIndex, deleteUserData } from "../redux/userSlice";
 
-const UserTable = () => {
-  const [editingUserId, setEditingUserId] = useState(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const users = useSelector((state) => state.users.users);
+export default function UserTable() {
   const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.user);
 
-  const handleEdit = (user) => {
-    setEditingUserId(user.id);
-    setName(user.name);
-    setEmail(user.email);
+  const handleEditClick = (index) => {
+    dispatch(setEditingIndex(index));
   };
 
-  const handleUpdate = () => {
-    if (editingUserId) {
-      dispatch(updateUser({ id: editingUserId, name, email }));
-      setEditingUserId(null);
-      setName("");
-      setEmail("");
-    }
-  };
-
-  const handleDelete = (userId) => {
-    dispatch(deleteUser(userId));
+  const handleDeleteClick = (index) => {
+    dispatch(deleteUserData(index));
   };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-        <thead className="bg-gray-100 border-b border-gray-300">
-          <tr>
-            <th className="py-3 px-4 text-left text-gray-600 font-semibold">
-              Name
-            </th>
-            <th className="py-3 px-4 text-left text-gray-600 font-semibold">
-              Email
-            </th>
-            <th className="py-3 px-4 text-left text-gray-600 font-semibold">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="3" className="py-4 px-4 text-center text-gray-500">
-                No users found
-              </td>
-            </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user.id} className="border-b border-gray-200">
-                <td className="py-3 px-4 text-gray-700">{user.name}</td>
-                <td className="py-3 px-4 text-gray-700">{user.email}</td>
-                <td className="py-3 px-4">
-                  <button
-                    onClick={() => handleEdit(user)}
-                    className="bg-yellow-500 text-white py-1 px-3 rounded-lg mr-2 hover:bg-yellow-600"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(user.id)}
-                    className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <h2 className="text-2xl font-bold mb-6 text-center">User Data Table</h2>
+        {userData.length > 0 ? (
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Email
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Password
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Summary
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-
-      {editingUserId && (
-        <div className="mt-6 p-4 bg-white border border-gray-200 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Edit User</h2>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
-              Name:
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
-              Email:
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <button
-            onClick={handleUpdate}
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-          >
-            Update
-          </button>
-        </div>
-      )}
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {userData.map((user, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.password}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.summary}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button
+                      onClick={() => handleEditClick(index)}
+                      className="text-yellow-600 hover:text-yellow-900 mr-4"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteClick(index)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-center text-gray-500">No user data available.</p>
+        )}
+      </div>
     </div>
   );
-};
-
-export default UserTable;
+}
