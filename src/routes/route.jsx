@@ -8,6 +8,7 @@ import Learnlogic from "../component/home-learning/learnlogic";
 import UiMain from "../component/ui-component/uimain";
 import Main from "../pages/Main";
 import Mergf from "../component/zustand/mergf";
+import Redmerg from "../component/redux/redmerg";
 
 const route = () => {
   return (
@@ -19,6 +20,7 @@ const route = () => {
         <Route path="/TaskListManagement" element={<TaskListManagement />} />
         <Route path="/Ui" element={<UiMain />} />
         <Route path="/Mergf" element={<Mergf />} />
+        <Route path="/Redmerg" element={<Redmerg />} />
         <Route path="/Learnlogic" element={<Learnlogic />} />
       </Routes>
     </Router>
