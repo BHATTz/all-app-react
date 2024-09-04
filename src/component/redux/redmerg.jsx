@@ -1,9 +1,14 @@
+// App.js
 import React from "react";
+import Counter from "./counter";
 
-export default function redmerg() {
+const redmerg = () => {
   return (
-    <>
-      <h1>hello</h1>
-    </>
+    <div>
+      <h1>Redux Counter Example</h1>
+      <Counter />
+    </div>
   );
-}
+};
+
+export default redmerg;
