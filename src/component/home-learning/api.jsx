@@ -13,7 +13,7 @@ const Api = () => {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen content-center">
       <h1>Data from API:</h1>
       <ul>
         {data.map((item, index) => (
