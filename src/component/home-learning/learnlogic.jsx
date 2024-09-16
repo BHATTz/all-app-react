@@ -1,24 +1,22 @@
-import React from "react";
-import { useState, useEffect } from "react";
-
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 
-export default function learnlogic() {
+export default function LearnLogic() {
   const [counter, setCounter] = useState(0);
-  const [display, setdisplay] = useState("");
 
-  function increment() {
-    setCounter(counter + 1);
-    console.log(counter);
-  }
+  // Memoized increment function
+  const increment = useCallback(() => {
+    setCounter((prevCounter) => prevCounter + 1);
+  }, []);
 
-  useEffect(() => {
+  // Memoized display message
+  const display = useMemo(() => {
     if (counter > 0) {
-      setdisplay("Counter is Increase successfully");
+      return "Counter is Increased successfully";
     } else {
-      setdisplay("");
+      return "";
     }
-  });
+  }, [counter]);
 
   return (
     <div className="flex flex-col items-center justify-center p-6 bg-gray-200 min-h-screen">
@@ -30,7 +28,6 @@ export default function learnlogic() {
       >
         UseState-Counter
       </button>
-      {/* <h3 className="text-3xl font-bold mb-6">{counter}</h3> */}
       <h4 className="text-1xl font-bold mb-6">
         {display} : {counter}
       </h4>

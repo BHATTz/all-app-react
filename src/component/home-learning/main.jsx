@@ -3,6 +3,7 @@ import Logic from "./learnlogic";
 import Api from "./api";
 import SM from "./spreadMap";
 import Arr from "./arr";
+import UF from "./uForm";
 
 export default function Main() {
   return (
@@ -11,6 +12,7 @@ export default function Main() {
       <Arr />
       <SM />
       <Api />
+      <UF />
     </>
   );
 }
